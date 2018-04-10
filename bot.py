@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 import random
-import json
+from Services.readfile import read_file
 from twython import Twython
 
 # Credentials setup
 # Loads in 'twitter-creds.json' values as a dictionary
-with open('twitter-creds.json') as f:
-    credentials = json.loads(f.read())
+credentials = read_file("twitter-creds.json")
 
 # Sets config values from the config file
 CONSUMER_KEY = credentials["consumer_key"]
@@ -19,7 +18,7 @@ twitter = Twython(CONSUMER_KEY, CONSUMER_SECRET,
                   ACCESS_TOKEN_KEY, ACCESS_TOKEN_SECRET)
 
 # User IDs
-USER_IDS = {284363777}
+USER_IDS = {225664792}
 # Todo Add this list from a database or any configuration file
 
 # Sample random tweets
@@ -47,6 +46,17 @@ def get_mentions_from_users():
     return [x for x in user_mentions if x['user']['id'] in USER_IDS]
 
 
+def get_user_timeline(userid: int):
+    tweets = twitter.get_user_timeline(user_id=userid,
+                                       max_id=None,
+                                       count=50,
+                                       trim_user=True,
+                                       exclude_replies=True,
+                                       include_rts=False)
+    for tweet in tweets:
+        print(tweet)
+
+
 def handler(event, context):
     """Sends random tweet from list of potential tweets"""
     send_tweet(random.choice(potential_tweets))
@@ -57,5 +67,6 @@ if __name__ == "__main__":
     if not is_valid:
         print('Credentials are not valid, please check the twitter-creds.json')
         exit()
-    mentions = get_mentions_from_users()
-    print(mentions)
+    # mentions = get_mentions_from_users()
+    # print(mentions)
+    get_user_timeline(225664792)
