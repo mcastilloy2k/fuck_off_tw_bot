@@ -4,8 +4,8 @@ import json
 from twython import Twython
 
 # Credentials setup
-# Loads in 'creds.json' values as a dictionary
-with open('creds.json') as f:
+# Loads in 'twitter-creds.json' values as a dictionary
+with open('twitter-creds.json') as f:
     credentials = json.loads(f.read())
 
 # Sets config values from the config file
@@ -55,7 +55,7 @@ def handler(event, context):
 if __name__ == "__main__":
     is_valid = is_valid_user()
     if not is_valid:
-        print('Credentials are not valid, please check the creds.json')
+        print('Credentials are not valid, please check the twitter-creds.json')
         exit()
     mentions = get_mentions_from_users()
     print(mentions)
