@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import random
 from Services.readfile import read_file
+from Services.printer import print_json
 from twython import Twython
 
 # Credentials setup
@@ -49,12 +50,12 @@ def get_mentions_from_users():
 def get_user_timeline(userid: int):
     tweets = twitter.get_user_timeline(user_id=userid,
                                        max_id=None,
-                                       count=50,
+                                       count=3,
                                        trim_user=True,
                                        exclude_replies=True,
                                        include_rts=False)
     for tweet in tweets:
-        print(tweet)
+        print_json(tweet)
 
 
 def handler(event, context):
