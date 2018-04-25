@@ -10,7 +10,6 @@ def print_json(obj: object):
 
 def string_json(obj: object, sort: bool=default_sort_keys, indents: int=default_indent):
     if type(obj) is str:
-        print(json.dumps(json.loads(obj), sort_keys=sort, indent=indents))
+        return json.dumps(json.loads(obj), sort_keys=sort, indent=indents)
     else:
-        print(json.dumps(obj, sort_keys=sort, indent=indents))
-    return None
+        return json.dumps(obj, sort_keys=sort, indent=indents)

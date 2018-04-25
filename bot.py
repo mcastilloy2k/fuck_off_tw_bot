@@ -20,6 +20,7 @@ twitter = Twython(CONSUMER_KEY, CONSUMER_SECRET,
 
 # User IDs
 USER_IDS = {225664792}
+MY_ID = 35412629
 # Todo Add this list from a database or any configuration file
 
 # Sample random tweets
@@ -47,13 +48,16 @@ def get_mentions_from_users():
     return [x for x in user_mentions if x['user']['id'] in USER_IDS]
 
 
-def get_user_timeline(userid: int):
-    tweets = twitter.get_user_timeline(user_id=userid,
-                                       max_id=None,
-                                       count=3,
-                                       trim_user=True,
-                                       exclude_replies=True,
-                                       include_rts=False)
+def get_user_timeline():
+    tweets = []
+    for user_id in USER_IDS:
+        tweets = twitter.get_user_timeline(user_id=user_id,
+                                           max_id=None,
+                                           count=10,
+                                           trim_user=True,
+                                           exclude_replies=True,
+                                           include_rts=False) + tweets
+    tweets = [x for x in tweets if 'quoted_status' in x and x['quoted_status']['user']['id'] == MY_ID]
     for tweet in tweets:
         print_json(tweet)
 
@@ -70,4 +74,4 @@ if __name__ == "__main__":
         exit()
     # mentions = get_mentions_from_users()
     # print(mentions)
-    get_user_timeline(225664792)
+    get_user_timeline()
